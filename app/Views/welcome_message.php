@@ -199,7 +199,7 @@
     </style>
 </head>
 <body>
-
+<?= $this->include('partials/navigation'); ?>
 <!-- HEADER: MENU + HEROE SECTION -->
 <header>
 

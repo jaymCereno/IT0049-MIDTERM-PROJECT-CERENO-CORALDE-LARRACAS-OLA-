@@ -19,18 +19,42 @@ class Users extends BaseController
     {
         if ($this->request->getMethod() === 'POST') {
 
-            $avatar = $this->request->getFile('avatar');
+            $rules = [
+                'username' => 'required|min_length[3]|max_length[50]',
+                'full_name' => 'required|min_length[2]|max_length[100]',
+                'password' => 'required|min_length[8]|max_length[255]'
+            ];
 
+            $messages = [
+                'username' => [
+                    'required' => 'Username is required.',
+                    'min_length' => 'Username must be at least 3 characters.',
+                    'max_length' => 'Username cannot exceed 50 characters.'
+                ],
+                'full_name' => [
+                    'required' => 'Full name is required.',
+                    'min_length' => 'Full name must be at least 2 characters.',
+                    'max_length' => 'Full name cannot exceed 100 characters.'
+                ],
+                'password' => [
+                    'required' => 'Password is required.',
+                    'min_length' => 'Password must be at least 8 characters.',
+                    'max_length' => 'Password cannot exceed 255 characters.'
+                ]
+            ];
+
+            if (!$this->validate($rules, $messages)) {
+                return view('users/create', [
+                    'validation' => $this->validator
+                ]);
+            }
+
+            $avatar = $this->request->getFile('avatar');
             $avatarName = null;
 
             if ($avatar && $avatar->isValid()) {
-
                 $avatarName = $avatar->getRandomName();
-
-                $avatar->move(
-                    FCPATH . 'uploads/avatars',
-                    $avatarName
-                );
+                $avatar->move(FCPATH . 'uploads/avatars', $avatarName);
             }
 
             $userModel = new UserModel();
@@ -58,6 +82,31 @@ class Users extends BaseController
 
         if ($this->request->getMethod() === 'POST') {
 
+            $rules = [
+                'username' => 'required|min_length[3]|max_length[50]',
+                'full_name' => 'required|min_length[2]|max_length[100]'
+            ];
+
+            $messages = [
+                'username' => [
+                    'required' => 'Username is required.',
+                    'min_length' => 'Username must be at least 3 characters.',
+                    'max_length' => 'Username cannot exceed 50 characters.'
+                ],
+                'full_name' => [
+                    'required' => 'Full name is required.',
+                    'min_length' => 'Full name must be at least 2 characters.',
+                    'max_length' => 'Full name cannot exceed 100 characters.'
+                ]
+            ];
+
+            if (!$this->validate($rules, $messages)) {
+                return view('users/edit', [
+                    'validation' => $this->validator,
+                    'user' => $userModel->find($id)
+                ]);
+            }
+
             $data = [
                 'username' => $this->request->getPost('username'),
                 'full_name' => $this->request->getPost('full_name')
@@ -66,7 +115,6 @@ class Users extends BaseController
             $avatar = $this->request->getFile('avatar');
 
             if ($avatar && $avatar->isValid()) {
-
                 $avatarName = $avatar->getRandomName();
 
                 $avatar->move(

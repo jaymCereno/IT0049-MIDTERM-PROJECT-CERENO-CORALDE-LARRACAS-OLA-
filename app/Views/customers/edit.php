@@ -5,7 +5,15 @@
 </head>
 <body>
 
+<?= $this->include('partials/navigation'); ?>
+
 <h1>Edit Customer</h1>
+
+<?php if (isset($validation)): ?>
+    <div style="color: red;">
+        <?= $validation->listErrors(); ?>
+    </div>
+<?php endif; ?>
 
 <form method="post">
 
@@ -13,7 +21,7 @@
     <input
         type="text"
         name="full_name"
-        value="<?= $customer['full_name']; ?>"
+        value="<?= esc(old('full_name', $customer['full_name'])); ?>"
         required>
 
     <br><br>
@@ -22,7 +30,7 @@
     <input
         type="email"
         name="email"
-        value="<?= $customer['email']; ?>"
+        value="<?= esc(old('email', $customer['email'])); ?>"
         required>
 
     <br><br>
@@ -31,7 +39,7 @@
     <input
         type="text"
         name="phone"
-        value="<?= $customer['phone']; ?>"
+        value="<?= esc(old('phone', $customer['phone'])); ?>"
         required>
 
     <br><br>

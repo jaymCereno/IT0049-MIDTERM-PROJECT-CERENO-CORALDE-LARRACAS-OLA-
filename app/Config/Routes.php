@@ -3,9 +3,8 @@
 use CodeIgniter\Router\RouteCollection;
 
 /** @var RouteCollection $routes */
-$routes->get('/', 'Home::index');
 
-$routes->get('/', 'Products::index');
+$routes->get('/', 'Home::index');
 
 $routes->get('/products', 'Products::index');
 
@@ -30,3 +29,10 @@ $routes->match(['get','post'], '/users/create', 'Users::create');
 $routes->match(['get','post'], '/users/edit/(:num)', 'Users::edit/$1');
 
 $routes->get('/users/delete/(:num)', 'Users::delete/$1');
+
+// Phase 6 - Sales Module
+$routes->get('/sales/create', 'Sales::create');
+
+$routes->post('/sales/create', 'Sales::create');
+
+$routes->get('/sales', 'Sales::index');

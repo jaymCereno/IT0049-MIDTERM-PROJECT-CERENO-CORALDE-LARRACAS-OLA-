@@ -4,7 +4,7 @@
     <title>Edit Product</title>
 </head>
 <body>
-
+<?= $this->include('partials/navigation'); ?>
 <h1>Edit Product</h1>
 
 <form method="post" enctype="multipart/form-data">

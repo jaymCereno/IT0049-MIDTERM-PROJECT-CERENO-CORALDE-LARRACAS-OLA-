@@ -1,70 +1,303 @@
-# CodeIgniter 4 Application Starter
+# IT0049 Point-of-Sale System
 
-## What is CodeIgniter?
+A CodeIgniter 4 point-of-sale system built with PHP and MySQL. The application manages products, customers, staff users, and sales transactions through a simple MVC structure.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Features
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- Product management
+  - View products
+  - Add products
+  - Edit products
+  - Delete products
+  - Upload product images
+  - Track prices and stock quantities
+- Customer management
+  - View customers
+  - Add customers
+  - Edit customers
+  - Delete customers
+- Staff user management
+  - View users
+  - Add users
+  - Edit users
+  - Delete users
+  - Upload user avatars
+  - Hash passwords before saving
+- Sales management
+  - Record sales
+  - Select a staff member
+  - Select an optional customer
+  - Check product availability
+  - Deduct stock after a successful sale
+  - Save sales in a database transaction
+- Sales History
+  - View recorded sales
+  - Display product, customer, staff, quantity, total, and date
+  - Display `Walk-in Customer` when no customer is selected
+- Shared navigation across the application views
+- Server-side validation for products, customers, and users
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Technology Stack
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+- PHP 8.2+
+- CodeIgniter 4.7.4
+- MySQL or MariaDB
+- Apache through XAMPP
+- Composer
+- HTML and basic CSS
 
-## Installation & updates
+## Requirements
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Make sure the following are installed:
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+- XAMPP with Apache and MySQL
+- PHP 8.2 or higher
+- Composer
+- PHP extensions required by CodeIgniter, including `intl`, `mbstring`, and MySQL support
 
-## Setup
+## Installation
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+### 1. Clone or copy the project
 
-## Important Change with index.php
+Place the project inside the XAMPP `htdocs` directory:
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+```text
+C:\xampp\htdocs\midtermproject-main
+```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### 2. Install dependencies
 
-**Please** read the user guide for a better explanation of how CI4 works!
+Open a terminal in the project directory and run:
 
-## Repository Management
+```bash
+composer install
+```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+This installs the CodeIgniter framework and creates the `vendor` directory.
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 3. Create the environment file
 
-## Server Requirements
+Create a file named `.env` in the project root. It should be beside `app`, `public`, `composer.json`, and `spark`.
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+Example local configuration:
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+```ini
+CI_ENVIRONMENT = development
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+app.baseURL = 'http://localhost/midtermproject-main/public/'
+app.indexPage = ''
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+database.default.hostname = localhost
+database.default.database = it0049_pos
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+database.default.port = 3306
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
-# IT0049-MIDTERM-PROJECT-CERENO-CORALDE-LARRACAS-OLA-
+Update the database username and password if your local MySQL installation uses different credentials.
+
+Do not commit `.env` to GitHub. It is already excluded through `.gitignore`.
+
+### 4. Import the database
+
+1. Start Apache and MySQL in XAMPP.
+2. Open phpMyAdmin.
+3. Create a database named `it0049_pos`.
+4. Import the file:
+
+```text
+it0049_pos.sql
+```
+
+The database contains the following tables:
+
+- `products`
+- `customers`
+- `users`
+- `sales`
+
+### 5. Open the application
+
+Using XAMPP Apache, open:
+
+```text
+http://localhost/midtermproject-main/public/
+```
+
+The CodeIgniter development server can also be used from the project directory:
+
+```bash
+php spark serve
+```
+
+Then open:
+
+```text
+http://localhost:8080/
+```
+
+## Main Routes
+
+| Route | Purpose |
+|---|---|
+| `/` | Home page |
+| `/products` | Product list |
+| `/products/create` | Add a product |
+| `/products/edit/{id}` | Edit a product |
+| `/products/delete/{id}` | Delete a product |
+| `/customers` | Customer list |
+| `/customers/create` | Add a customer |
+| `/customers/edit/{id}` | Edit a customer |
+| `/customers/delete/{id}` | Delete a customer |
+| `/users` | Staff user list |
+| `/users/create` | Add a staff user |
+| `/users/edit/{id}` | Edit a staff user |
+| `/users/delete/{id}` | Delete a staff user |
+| `/sales/create` | Record a sale |
+| `/sales` | View Sales History |
+
+When using XAMPP, prepend the project base URL:
+
+```text
+http://localhost/midtermproject-main/public
+```
+
+## Project Structure
+
+```text
+app/
+├── Config/
+│   └── Routes.php
+├── Controllers/
+│   ├── Customers.php
+│   ├── Home.php
+│   ├── Products.php
+│   ├── Sales.php
+│   └── Users.php
+├── Models/
+│   ├── CustomerModel.php
+│   ├── ProductModel.php
+│   ├── SaleModel.php
+│   └── UserModel.php
+└── Views/
+    ├── customers/
+    ├── partials/
+    │   └── navigation.php
+    ├── products/
+    ├── sales/
+    ├── users/
+    └── welcome_message.php
+
+public/
+├── index.php
+└── uploads/
+    ├── avatars/
+    └── products/
+
+it0049_pos.sql
+composer.json
+spark
+```
+
+## MVC Flow
+
+The application follows the CodeIgniter MVC pattern:
+
+```text
+Browser request
+      ↓
+Route in app/Config/Routes.php
+      ↓
+Controller in app/Controllers/
+      ↓
+Model in app/Models/
+      ↓
+MySQL database
+      ↓
+View in app/Views/
+      ↓
+HTML response in the browser
+```
+
+For example, the Sales History flow is:
+
+```text
+/sales
+  ↓
+Sales::index()
+  ↓
+SaleModel::getSalesHistory()
+  ↓
+Joined sales, products, customers, and users query
+  ↓
+app/Views/sales/index.php
+```
+
+## Database Relationships
+
+The `sales` table connects the other main tables:
+
+```text
+products ──┐
+customers ─┼── sales
+users ─────┘
+```
+
+- `sales.product_id` references `products.id`
+- `sales.customer_id` references `customers.id`
+- `sales.sold_by` references `users.id`
+
+The customer relationship is optional to support walk-in sales.
+
+## Validation
+
+Server-side validation is implemented for:
+
+- Products
+  - Required name
+  - Numeric positive price
+  - Whole, non-negative stock quantity
+- Customers
+  - Required full name
+  - Valid email address
+  - Required phone number
+- Users
+  - Required username
+  - Required full name
+  - Minimum password length when creating a user
+
+Validation errors are displayed on the relevant forms, and submitted values are preserved when validation fails.
+
+## Upload Directories
+
+Uploaded files are stored in the public directory:
+
+```text
+public/uploads/products/
+public/uploads/avatars/
+```
+
+## Development Commands
+
+Display the registered routes:
+
+```bash
+php spark routes
+```
+
+Start the CodeIgniter development server:
+
+```bash
+php spark serve
+```
+
+Run the test suite:
+
+```bash
+composer test
+```
+
+## Project Status
+
+The current implementation includes the main CRUD modules, sales recording, stock deduction, Sales History, file uploads, shared navigation, database relationships, and server-side validation.
