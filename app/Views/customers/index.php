@@ -4,7 +4,7 @@
 <head>
     <title>Customers</title>
 </head>
-
+<?= $this->include('partials/navigation'); ?>
 <body>
 
     <h1>Customers</h1>

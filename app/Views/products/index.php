@@ -6,7 +6,7 @@
 </head>
 
 <body>
-
+    <?= $this->include('partials/navigation'); ?>
     <h1>Products</h1>
 
     <p>
